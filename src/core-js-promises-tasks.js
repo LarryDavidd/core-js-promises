@@ -76,9 +76,7 @@ const getFirstResolvedPromiseResult = (promises) => Promise.any(promises);
  * [promise3, promise6, promise2] => Promise rejected with 2
  * [promise3, promise4, promise6] => Promise rejected with 6
  */
-function getFirstPromiseResult(/* promises */) {
-  throw new Error('Not implemented');
-}
+const getFirstPromiseResult = (promises) => Promise.race(promises);
 
 /**
  * Attempts to resolve all provided promises. If all promises resolve successfully, it returns a promise that resolves with an array of their values.
@@ -91,9 +89,7 @@ function getFirstPromiseResult(/* promises */) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)] => Promise rejected with 2
  */
-function getAllOrNothing(/* promises */) {
-  throw new Error('Not implemented');
-}
+const getAllOrNothing = (promises) => Promise.all(promises);
 
 /**
  * Processes an array of promises and returns a promise that resolves with an array of their results.
@@ -107,9 +103,10 @@ function getAllOrNothing(/* promises */) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)]  => Promise fulfilled with [1, null, 3]
  */
-function getAllResult(/* promises */) {
-  throw new Error('Not implemented');
-}
+const getAllResult = (promises) =>
+  Promise.all(
+    promises.map((promise) => promise.then((res) => res).catch(() => null))
+  );
 
 /**
  * Takes an array of promises and processes them sequentially, concatenating each resolved value into a single string.
@@ -131,6 +128,11 @@ function getAllResult(/* promises */) {
  */
 function queuPromises(/* promises */) {
   throw new Error('Not implemented');
+  // return new Promise((resolve) => {
+  //   const result = [];
+  //   promises.forEach((promise) => promise.then((res) => result.push(res)));
+  //   resolve(result);
+  // });
 }
 
 module.exports = {
